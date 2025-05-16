@@ -14,7 +14,7 @@ import joblib
 modelo = joblib.load("modelo_libras.pkl")
 
 # Caminho do modelo
-model_path = r"C:\hand_landmarker\hand_landmarker.task"
+model_path = os.path.join(".", "hand_landmarker", "hand_landmarker.task")
 
 # Configuração do modelo
 base_options = python.BaseOptions(model_asset_path=model_path)
