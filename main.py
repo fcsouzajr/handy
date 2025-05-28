@@ -7,7 +7,7 @@ from mediapipe.python.solutions import drawing_utils
 import csv
 import os
 import string
-import time  # Importando o módulo time para o cooldown
+import time
 import numpy as np
 import joblib
 
@@ -33,6 +33,7 @@ os.makedirs(output_dir, exist_ok=True)
 MODO_NORMAL = 0
 MODO_TREINAMENTO = 1
 MODO_ESCRITA = 2
+MODO_ESCRITA_STOP = 3  # Novo modo
 modo_atual = MODO_NORMAL
 
 # Variáveis para armazenar a frase
@@ -40,8 +41,8 @@ frase_atual = []
 palavra_atual = []
 ultima_letra = None
 letra_atual = None
-ultimo_tempo_letra = 0  # Variável para armazenar o tempo da última letra adicionada
-COOLDOWN_LETRAS = 0.5 # Cooldown de 0.7 segundos entre letras
+ultimo_tempo_letra = 0
+COOLDOWN_LETRAS = 0.5
 
 # Captura de vídeo
 cap = cv2.VideoCapture(0)
@@ -68,6 +69,9 @@ while cap.isOpened():
     elif modo_atual == MODO_ESCRITA:
         modo_texto = "MODO: ESCRITA"
         cor_modo = (0, 255, 0)  # Verde
+    elif modo_atual == MODO_ESCRITA_STOP:
+        modo_texto = "MODO: ESCRITA (STOP)"
+        cor_modo = (0, 255, 255)  # Amarelo
     else:
         modo_texto = "MODO: NORMAL"
         cor_modo = (0, 0, 255)  # Azul
@@ -110,7 +114,8 @@ while cap.isOpened():
 
                 print(f"[✓] Dados salvos para a letra '{letra}'")
             
-            if modo_atual != MODO_TREINAMENTO:
+            # Detecta letras apenas nos modos normal e escrita
+            if modo_atual in [MODO_NORMAL, MODO_ESCRITA]:
                 dados = []
                 for lm in hand_landmarks:
                     dados.extend([lm.x, lm.y, lm.z])
@@ -123,8 +128,8 @@ while cap.isOpened():
                     # Mostra a letra na tela
                     cv2.putText(image_bgr, f"Letra: {letra_predita}", (10, 70), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 3)
 
-    # Exibe a palavra e frase atual apenas no modo escrita
-    if modo_atual == MODO_ESCRITA:
+    # Exibe a palavra e frase atual nos modos escrita
+    if modo_atual in [MODO_ESCRITA, MODO_ESCRITA_STOP]:
         cv2.putText(image_bgr, f"Palavra: {' '.join(palavra_atual)}", (10, 110), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2)
         cv2.putText(image_bgr, f"Frase: {' '.join(frase_atual)}", (10, 150), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 0), 2)
 
@@ -148,11 +153,12 @@ while cap.isOpened():
         print("[Modo] Voltou ao modo normal")
     elif key == ord('2'):
         modo_atual = MODO_ESCRITA
-        # Limpa as variáveis ao entrar no modo escrita
-        frase_atual = []
-        palavra_atual = []
+        # Mantém as variáveis ao entrar no modo escrita
         ultimo_tempo_letra = 0  # Reseta o cooldown ao entrar no modo
         print("[Modo] Entrou no modo escrita")
+    elif key == ord('3'):
+        modo_atual = MODO_ESCRITA_STOP
+        print("[Modo] Entrou no modo escrita (stop) - Captura pausada")
     
     # Teclas para controle da frase (apenas no modo escrita)
     tempo_atual = time.time()  # Obtém o tempo atual
