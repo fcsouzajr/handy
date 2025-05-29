@@ -123,7 +123,23 @@ def main():
                 f.write(f"Acurácia: {res['accuracy']:.4f}\n")
                 f.write(f"Tempo Treino: {res['train_time']:.2f}s\n")
                 f.write(f"Tempo Predição: {res['pred_time']:.4f}s/amostra\n")
-                f.write(classification_report(y_test, res['report']))
+                
+                # Corrigindo a escrita do relatório
+                report = res['report']
+                if isinstance(report, dict):
+                    # Formatar o relatório de classificação manualmente
+                    f.write("\nClassification Report:\n")
+                    f.write(f"{'Class':<10} {'Precision':<10} {'Recall':<10} {'F1-score':<10} {'Support':<10}\n")
+                    for class_name, metrics in report.items():
+                        if isinstance(metrics, dict):  # Linhas por classe
+                            f.write(f"{class_name:<10} {metrics['precision']:<10.2f} {metrics['recall']:<10.2f} {metrics['f1-score']:<10.2f} {metrics['support']:<10}\n")
+                    # Adicionar métricas globais
+                    f.write(f"\nAccuracy: {report['accuracy']:.2f}\n")
+                    f.write(f"Macro avg: precision={report['macro avg']['precision']:.2f}, recall={report['macro avg']['recall']:.2f}, f1-score={report['macro avg']['f1-score']:.2f}\n")
+                    f.write(f"Weighted avg: precision={report['weighted avg']['precision']:.2f}, recall={report['weighted avg']['recall']:.2f}, f1-score={report['weighted avg']['f1-score']:.2f}\n")
+                else:
+                    f.write("\nClassification Report:\n")
+                    f.write(report)
     else:
         print("Nenhum modelo foi treinado com sucesso.")
 
