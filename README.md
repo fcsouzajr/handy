@@ -12,7 +12,7 @@ Este projeto utiliza visão computacional e machine learning para reconhecer ges
 - scikit-learn (`pip install scikit-learn`)
 - joblib (`pip install joblib`)
 
-Ou, simplesmente, instale as dependências através de `pip install requirements.txt`.
+Ou, simplesmente, instale as dependências através de `pip install -r requirements.txt`.
 
 ## 📂 Estrutura de Arquivos
 
@@ -117,7 +117,7 @@ python main.py
 - Mantenha iluminação adequada durante a captura
 - Execute `train.model.py`` para gerar a nova versão do modelo
 
-## 🖐️ Entendendo o Hand Landmarker
+## 🖐️ Sobre o Hand Landmarker
 Utilizou-se de base para fazer o handtracking o modelo "Hand Landmarker" disponibilizado pelo MediaPipe do [Google AI for Developers](https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker?hl=pt-br). Ele permite detectar 21 pontos de referência (landmarks) das mãos em uma imagem, como ilustrado abaixo: 
 
 ![Pontos de referência (landmarks) da mão detectados pelo MediaPipe](https://ai.google.dev/static/edge/mediapipe/images/solutions/hand-landmarks.png)
