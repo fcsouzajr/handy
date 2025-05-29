@@ -116,3 +116,12 @@ python main.py
 - Evite deixar as quantidades de dados de cada letra muito diferentes, para evitar classificações enviesadas
 - Mantenha iluminação adequada durante a captura
 - Execute `train.model.py`` para gerar a nova versão do modelo
+
+## 🖐️ Entendendo o Hand Landmarker
+Utilizou-se de base para fazer o handtracking o modelo "Hand Landmarker" disponibilizado pelo MediaPipe do [Google AI for Developers](https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker?hl=pt-br). Ele permite detectar 21 pontos de referência (landmarks) das mãos em uma imagem, como ilustrado abaixo: 
+
+![Pontos de referência (landmarks) da mão detectados pelo MediaPipe](https://ai.google.dev/static/edge/mediapipe/images/solutions/hand-landmarks.png)
+
+*Figura 1: Os 21 landmarks da mão identificados pelo modelo Hand Landmarker*
+
+Além de identificar com precisão 21 pontos anatômicos da mão, possui suporte para detecção simultânea de múltiplas mãos.
