@@ -23,7 +23,7 @@ from lightgbm import LGBMClassifier
 from catboost import CatBoostClassifier
 
 # Carregar dados
-def carregar_dados(dados_dir="dados_libras"):
+def carregar_dados(dados_dir="../dados_libras"):
     X, y = [], []
     for arquivo in os.listdir(dados_dir):
         if arquivo.endswith(".csv"):
@@ -113,8 +113,8 @@ def main():
         print(f"\n=== Melhor modelo: {melhor_nome} ===")
         print(f"Acurácia: {modelos_validos[melhor_nome]['accuracy']:.4f}")
         
-        joblib.dump(melhor_modelo, "melhor_modelo.pkl")
-        print("Melhor modelo salvo como 'melhor_modelo.pkl'")
+        joblib.dump(melhor_modelo, "modelo_libras.pkl")
+        print("Melhor modelo salvo como 'modelo_libras.pkl'")
         
         # Salvar relatório completo
         with open("relatorio_modelos.txt", "w") as f:

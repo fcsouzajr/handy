@@ -7,7 +7,7 @@ from sklearn.metrics import classification_report
 import joblib
 
 # Caminho dos dados
-dados_dir = "dados_libras"
+dados_dir = "../dados_libras"
 
 X = []
 y = []
