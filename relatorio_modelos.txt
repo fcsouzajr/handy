@@ -1,5 +1,0 @@
-
-=== Random Forest ===
-Acurácia: 0.9853
-Tempo Treino: 2.01s
-Tempo Predição: 0.0129s/amostra

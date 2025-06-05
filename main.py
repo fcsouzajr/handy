@@ -11,7 +11,7 @@ import time
 import numpy as np
 import joblib
 
-modelo = joblib.load("melhor_modelo.pkl")
+modelo = joblib.load("training_model/melhor_modelo.pkl")
 
 # Caminho do modelo
 model_path = os.path.join(".", "hand_landmarker", "hand_landmarker.task")
