@@ -23,10 +23,13 @@ Ou, simplesmente, instale as dependências através de `pip install -r requireme
     └── ...
 ├── hand_landmarker/        # Pasta com o modelo do MediaPipe
 │   └── hand_landmarker.task
+├── training_model/
+│   └── train_model.py          # Script para treinar o modelo com RandomFlorest
+│   └── train_best_model.py    # Script para treinar o modelo com diversos modelos e salvar o melhor
 ├── main.py                 # Script principal
 ├── modelo_libras.pkl       # Modelo treinado (gerado após treinamento)
 ├── requirements.txt        # Dependências utilizadas
-├── train_model.py          # Script para treinar o modelo
+
 
 
 ```
@@ -102,6 +105,10 @@ python main.py
 ```python
  python train_model.py
 ```
+ou
+```python
+ python train_best_model.py
+```
 
 ## 💡 Dicas
 
@@ -115,7 +122,7 @@ python main.py
 - Capture pelo menos 50-100 amostras por letra
 - Evite deixar as quantidades de dados de cada letra muito diferentes, para evitar classificações enviesadas
 - Mantenha iluminação adequada durante a captura
-- Execute `train.model.py`` para gerar a nova versão do modelo
+- Execute `train.model.py` ou `train_best_model.py` para gerar a nova versão do modelo
 
 ## 🖐️ Sobre o Hand Landmarker
 Utilizou-se de base para fazer o handtracking o modelo "Hand Landmarker" disponibilizado pelo MediaPipe do [Google AI for Developers](https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker?hl=pt-br). Ele permite detectar 21 pontos de referência (landmarks) das mãos em uma imagem, como ilustrado abaixo: 
