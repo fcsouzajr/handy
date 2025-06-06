@@ -29,9 +29,6 @@ Ou, simplesmente, instale as dependências através de `pip install -r requireme
 ├── main.py                 # Script principal
 ├── modelo_libras.pkl       # Modelo treinado (gerado após treinamento)
 ├── requirements.txt        # Dependências utilizadas
-
-
-
 ```
 
 ## 🎮 Como Usar
