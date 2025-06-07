@@ -26,8 +26,8 @@ Ou, simplesmente, instale as dependências através de `pip install -r requireme
 ├── training_model/
 │   └── train_model.py          # Script para treinar o modelo com RandomFlorest
 │   └── train_best_model.py    # Script para treinar o modelo com diversos modelos e salvar o melhor
+│   └── modelo_libras.pkl       # Modelo treinado (gerado após treinamento)
 ├── main.py                 # Script principal
-├── modelo_libras.pkl       # Modelo treinado (gerado após treinamento)
 ├── requirements.txt        # Dependências utilizadas
 ```
 
