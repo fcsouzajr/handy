@@ -10,6 +10,7 @@ import string
 import time
 import numpy as np
 import joblib
+import pyttsx3
 
 modelo = joblib.load("training_model/modelo_libras.pkl")
 
@@ -28,6 +29,9 @@ hand_landmarker = vision.HandLandmarker.create_from_options(options)
 # Pasta para salvar os dados
 output_dir = "dados_libras"
 os.makedirs(output_dir, exist_ok=True)
+
+# Configuração do Text-to-Speech (TTS)
+engine = pyttsx3.init()
 
 # Modos de operação
 MODO_NORMAL = 0
@@ -178,6 +182,9 @@ while cap.isOpened():
             print("\n--- FRASE FINALIZADA ---")
             print(' '.join(frase_atual))
             print("-----------------------\n")
+            engine.say(frase_atual)
+            engine.runAndWait()
+
             frase_atual = []
             ultimo_tempo_letra = tempo_atual  # Reseta o cooldown ao finalizar frase
         
