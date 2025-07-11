@@ -2,6 +2,7 @@
 
 ## 📌 Visão Geral
 
+
 Este projeto utiliza visão computacional e machine learning para reconhecer gestos da Língua Brasileira de Sinais (Libras) correspondentes ao alfabeto manual. O sistema oferece três modos de operação: treinamento do modelo, reconhecimento de letras e formação de palavras/frases.
 
 ## 🛠️ Pré-requisitos
