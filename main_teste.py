@@ -37,7 +37,7 @@ point_history = deque(maxlen=history_length)
 finger_gesture_history = deque(maxlen=history_length)
 
 # Pasta para salvar os dados
-output_dir = "dados_libras"
+output_dir = "keypoint_test\model\keypoint_classifier"
 os.makedirs(output_dir, exist_ok=True)
 
 # Modos de operação
@@ -105,10 +105,11 @@ def pre_process_point_history(image, point_history):
 def logging_csv(number, mode, landmark_list, point_history_list):
     if mode == MODO_TREINAMENTO and (0 <= number <= 26):
         letra = chr(ord('a') + number)
-        csv_path = os.path.join(output_dir, f"{letra}.csv")
+        csv_path = os.path.join(output_dir, f"keypoint.csv")
         with open(csv_path, 'a', newline="") as f:
             writer = csv.writer(f)
             writer.writerow([number, *landmark_list])
+        print(f"[Salvando] Letra: {letra} (classe {number})")
 
 while cap.isOpened():
     ret, frame = cap.read()
@@ -129,6 +130,13 @@ while cap.isOpened():
     if modo_atual == MODO_TREINAMENTO:
         modo_texto = "MODO: TREINAMENTO"
         cor_modo = (255, 0, 0)  # Vermelho
+        try:
+            letra = chr(key).lower()
+            if letra in string.ascii_lowercase:
+                number = ord(letra) - ord('a')
+                logging_csv(number, modo_atual, pre_processed_landmark_list, point_history)
+        except:
+            pass 
     elif modo_atual == MODO_ESCRITA:
         modo_texto = "MODO: ESCRITA"
         cor_modo = (0, 255, 0)  # Verde
