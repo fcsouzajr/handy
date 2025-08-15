@@ -12,7 +12,7 @@ dataset = 'model/keypoint_classifier/keypoint.csv'
 
 model_save_path = 'model/keypoint_classifier/keypoint_classifier.hdf5'
 
-NUM_CLASSES = 26
+NUM_CLASSES = 27
 
 X_dataset = np.loadtxt(dataset, delimiter=',', dtype='float32', usecols=list(range(1, (21 * 2) + 1)))
 y_dataset = np.loadtxt(dataset, delimiter=',', dtype='int32', usecols=(0))
@@ -30,8 +30,11 @@ model = tf.keras.models.Sequential([
 model.summary()  # tf.keras.utils.plot_model(model, show_shapes=True)
 
 # モデルチェックポイントのコールバック
+tmp_model_path = 'model/keypoint_classifier/keypoint_classifier_temp.keras'
+
 cp_callback = tf.keras.callbacks.ModelCheckpoint(
-    model_save_path, verbose=1, save_weights_only=False)
+    tmp_model_path, verbose=1, save_weights_only=False
+)
 # 早期打ち切り用コールバック
 es_callback = tf.keras.callbacks.EarlyStopping(patience=20, verbose=1)
 
