@@ -21,10 +21,29 @@ Ou, simplesmente, instale as dependências através de `pip install -r requireme
 ├── hand_landmarker/        # Pasta com o modelo do MediaPipe
 │   └── hand_landmarker.task
 ├── keypoint_test/
+│   ├── model/
+│   │   ├── keypoint_classifier/
+│   │   │   ├── __init__.py
+│   │   │   ├── keypoint_classifier_label.csv
+│   │   │   ├── keypoint_classifier.keras
+│   │   │   ├── keypoint_classifier.hdf5
+│   │   │   ├── keypoint_classifier.py
+│   │   │   ├── keypoint_classifier.tflite
+│   │   │   └── keypoint.csv
+│   │   ├── point_history_classifier/
+│   │   │   ├── __init__.py
+│   │   │   ├── point_history_classifier_label.csv
+│   │   │   ├── point_history_classifier.hdf5
+│   │   │   ├── point_history_classifier.py
+│   │   │   ├── point_history_classifier.tflite
+│   │   │   └── point_history.csv
+│   │   └── __init__.py
+│   ├── __init__.py
 │   └── keypoint_classification.py          # Script para treinar o modelo
-│   └── ...
+├── .gitignore     
 ├── main.py                 # Script principal
-├── requirements.txt        # Dependências utilizadas
+├── README.md     
+└──  requirements.txt        # Dependências utilizadas
 ```
 
 ## 🎮 Como Usar
