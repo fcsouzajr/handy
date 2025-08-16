@@ -6,6 +6,13 @@ arrow==1.3.0
 asttokens==3.0.0
 astunparse==1.6.3
 async-lru==2.0.5
+anyio==4.9.0
+argon2-cffi==25.1.0
+argon2-cffi-bindings==21.2.0
+arrow==1.3.0
+asttokens==3.0.0
+astunparse==1.6.3
+async-lru==2.0.5
 attrs==25.3.0
 babel==2.17.0
 beautifulsoup4==4.13.4

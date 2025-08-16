@@ -8,6 +8,7 @@ import string
 import time
 import numpy as np
 import joblib
+
 import copy
 import itertools
 from collections import deque, Counter
@@ -15,6 +16,7 @@ from collections import deque, Counter
 # Inicializa os classificadores personalizados
 keypoint_classifier = KeyPointClassifier()
 point_history_classifier = PointHistoryClassifier()
+
 
 # Carrega os rótulos dos classificadores
 with open('keypoint_test/model/keypoint_classifier/keypoint_classifier_label.csv', encoding='utf-8-sig') as f:
@@ -39,6 +41,9 @@ finger_gesture_history = deque(maxlen=history_length)
 # Pasta para salvar os dados
 output_dir = "keypoint_test\model\keypoint_classifier"
 os.makedirs(output_dir, exist_ok=True)
+
+# Configuração do Text-to-Speech (TTS)
+engine = pyttsx3.init()
 
 # Modos de operação
 MODO_NORMAL = 0
@@ -245,6 +250,9 @@ while cap.isOpened():
             print("\n--- FRASE FINALIZADA ---")
             print(' '.join(frase_atual))
             print("-----------------------\n")
+            engine.say(frase_atual)
+            engine.runAndWait()
+
             frase_atual = []
             ultimo_tempo_letra = tempo_atual
                 
