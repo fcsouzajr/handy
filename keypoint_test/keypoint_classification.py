@@ -58,9 +58,9 @@ X_train, y_train = oversample(X_train, y_train, target_classes=[19, 20], factor=
 
 model.summary()  # tf.keras.utils.plot_model(model, show_shapes=True)
 
-# モデルチェックポイントのコールバック
 tmp_model_path = 'model/keypoint_classifier/keypoint_classifier.keras'
 
+# Model checkpoint callback
 cp_callback = tf.keras.callbacks.ModelCheckpoint(
     model_save_path,
     monitor='val_accuracy',
@@ -70,23 +70,15 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(
     save_weights_only=False
 )
 
-# 早期打ち切り用コールバック
+# Callback for early stopping
 es_callback = tf.keras.callbacks.EarlyStopping(patience=20, verbose=1)
-
-#model_save_path = "model/keypoint_classifier/keypoint_classifier.keras"
-
-
-#cp_callback = tf.keras.callbacks.ModelCheckpoint(
-#    model_save_path, verbose=1, save_weights_only=False)
-
-#es_callback = tf.keras.callbacks.EarlyStopping(patience=20, verbose=1)
 
 print("""===================
 PARTE 1 COMPLETA
 ===================""")
 
 
-# モデルコンパイル
+# Model compilation
 model.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
     loss='sparse_categorical_crossentropy',
@@ -107,11 +99,8 @@ print("""===================
 PARTE 2 COMPLETA
 ===================""")
 
-# モデル評価
+# Model evaluation
 val_loss, val_acc = model.evaluate(X_test, y_test, batch_size=128)
-
-# 保存したモデルのロード
-#model = tf.keras.models.load_model(model_save_path)
 
 try:
     model = tf.keras.models.load_model(model_save_path)
@@ -127,7 +116,7 @@ print("""===================
 PARTE 3 COMPLETA
 ===================""")
 
-# 推論テスト
+# Inference test
 predict_result = model.predict(np.array([X_test[0]]))
 print(np.squeeze(predict_result))
 print(np.argmax(np.squeeze(predict_result)))
@@ -166,10 +155,8 @@ print("""===================
 PARTE 5 COMPLETA
 ===================""")
 
-# 推論専用のモデルとして保存
 model.save(model_save_path, include_optimizer=True)
 
-# モデルを変換(量子化)
 tflite_save_path = 'model/keypoint_classifier/keypoint_classifier.tflite'
 
 print("""===================
@@ -190,14 +177,14 @@ with open(tflite_save_path, 'wb') as f:
 interpreter = tf.lite.Interpreter(model_path=tflite_save_path)
 interpreter.allocate_tensors()
 
-# 入出力テンソルを取得
+# Get Input / Output tensor
 input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
 
 interpreter.set_tensor(input_details[0]['index'], np.array([X_test[0]]))
 
 
-# 推論実施
+# Inferece implementation
 interpreter.invoke()
 tflite_results = interpreter.get_tensor(output_details[0]['index'])
 
