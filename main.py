@@ -15,6 +15,7 @@ from modes.normal_mode import NormalMode
 from modes.training_mode import TrainingMode
 from modes.writing_mode import WritingMode
 from modes.stop_mode import StopMode
+from modes.menu_mode import MenuMode
 
 class HandGestureApp:
     def __init__(self):
@@ -45,7 +46,8 @@ class HandGestureApp:
             MODO_NORMAL: NormalMode(self),
             MODO_TREINAMENTO: TrainingMode(self),
             MODO_ESCRITA: WritingMode(self),
-            MODO_ESCRITA_STOP: StopMode(self)
+            MODO_ESCRITA_STOP: StopMode(self),
+            MODO_MENU: MenuMode(self),
         }
         self.current_mode = MODO_NORMAL
         self.current_mode_instance = self.modes[self.current_mode]
@@ -71,13 +73,17 @@ class HandGestureApp:
             debug_image = copy.deepcopy(image)
             image_rgb = convert_to_rgb(image)
             
-            # Detecção de mãos
-            results = self.process_hands(image_rgb)
-            
-            # Atualiza display e processa gestos
-            self.current_mode_instance.update_display(debug_image)
-            if results.multi_hand_landmarks:
-                self.process_hand_results(results, debug_image)
+            # Detecção de mãos (apenas se não estiver no menu)
+            if self.current_mode != MODO_MENU:
+                results = self.process_hands(image_rgb)
+                
+                # Atualiza display e processa gestos
+                self.current_mode_instance.update_display(debug_image)
+                if results and results.multi_hand_landmarks:
+                    self.process_hand_results(results, debug_image)
+            else:
+                # Renderiza o menu
+                debug_image = self.current_mode_instance.update_display(debug_image)
             
             # Exibe imagem
             cv2.imshow("Hand Gesture Recognition", debug_image)
@@ -145,18 +151,23 @@ class HandGestureApp:
     def process_keys(self):
         key = cv2.waitKey(1) & 0xFF
         
-        if key == 27:  # ESC
-            return True
+        if key == 27:  # ESC - abre/fecha menu
+            if self.current_mode == MODO_MENU:
+                self.change_mode(MODO_NORMAL)
+            else:
+                self.change_mode(MODO_MENU)
+            return False
         
-        # Muda modos
-        if key == ord('0'):
-            self.change_mode(MODO_TREINAMENTO)
-        elif key == ord('1'):
-            self.change_mode(MODO_NORMAL)
-        elif key == ord('2'):
-            self.change_mode(MODO_ESCRITA)
-        elif key == ord('3') and self.current_mode == MODO_ESCRITA:
-            self.change_mode(MODO_ESCRITA_STOP)
+        # Muda modos (apenas se não estiver no menu)
+        if self.current_mode != MODO_MENU:
+            if key == ord('0'):
+                self.change_mode(MODO_TREINAMENTO)
+            elif key == ord('1'):
+                self.change_mode(MODO_NORMAL)
+            elif key == ord('2'):
+                self.change_mode(MODO_ESCRITA)
+            elif key == ord('3') and self.current_mode == MODO_ESCRITA:
+                self.change_mode(MODO_ESCRITA_STOP)
         
         # Processa teclas no modo atual
         new_mode = self.current_mode_instance.handle_key(key)
