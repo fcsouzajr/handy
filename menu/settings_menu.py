@@ -1,6 +1,7 @@
 import cv2
 from .base_menu import BaseMenu
 from config.settings import app_config
+from utils.text_utils import put_unicode_text, put_unicode_text_centered
 
 class SettingsMenu(BaseMenu):
     def __init__(self, app):
@@ -27,9 +28,9 @@ class SettingsMenu(BaseMenu):
                 print(f"TTS {'ativado' if app_config.tts_enabled else 'desativado'}")
             elif selected == "Voltar":
                 return "MAIN_MENU"
-        elif key == ord('w') or key == 82:  # Seta para cima
+        elif key == ord('w'): # Mover para cima
             self.navigate_up()
-        elif key == ord('s') or key == 84:  # Seta para baixo
+        elif key == ord('s'): # Mover para baixo
             self.navigate_down()
         
         return None
@@ -47,18 +48,22 @@ class SettingsMenu(BaseMenu):
         cv2.addWeighted(overlay, 0.7, image, 0.3, 0, image)
         
         # Título do menu
-        cv2.putText(image, "CONFIGURAÇÕES", (width//2 - 100, 50), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+        image = put_unicode_text_centered(image, "CONFIGURAÇÕES", 50, 
+                                        font_size=30, color=(255, 255, 255))
         
         # Opções do menu
         for i, option in enumerate(self.options):
             color = (0, 255, 0) if i == self.selected_index else (255, 255, 255)
             y_pos = 100 + i * 40
-            cv2.putText(image, f"{'>' if i == self.selected_index else ' '} {option}", 
-                       (width//2 - 80, y_pos), cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2)
+            
+            prefix = "> " if i == self.selected_index else "  "
+            full_text = prefix + option
+            
+            image = put_unicode_text_centered(image, full_text, y_pos, 
+                                            font_size=24, color=color)
         
         # Instruções
-        cv2.putText(image, "Setas: Navegar  Enter: Alternar/Selecionar  ESC: Voltar", 
+        cv2.putText(image, "W/S: Navegar  Enter: Alternar/Selecionar  ESC: Voltar", 
                    (width//2 - 200, height - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (200, 200, 200), 1)
         
         return image

@@ -150,6 +150,9 @@ class HandGestureApp:
     
     def process_keys(self):
         key = cv2.waitKey(1) & 0xFF
+
+        if key != 255:
+            print(f"[DEBUG] Tecla pressionada: {key} (valor completo: {cv2.waitKey(1)})")
         
         if key == 27:  # ESC - abre/fecha menu
             if self.current_mode == MODO_MENU:
